@@ -6,14 +6,14 @@ import java.io.FileReader;
 
 public class ControlFicheros {
 
-	
+	String ruta = "";
 	/**
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	public static BufferedReader getBufferFichero() throws FileNotFoundException {
+	public static BufferedReader getBufferFichero(String ruta) throws FileNotFoundException {
 		// Ponemos la ruta del archivo. AQUI HABRÍA QUE PONER LA RUTA
-		FileReader entrada = new FileReader("/Users/pablofernandezmartinez/Desktop/037-Salamanca.txt");
+		FileReader entrada = new FileReader(ruta);
 
 		// Creamos en buffer
 		BufferedReader buffer = new BufferedReader(entrada);

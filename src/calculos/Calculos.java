@@ -21,16 +21,16 @@ import javax.swing.plaf.metal.MetalBorders.MenuItemBorder;
  */
 public class Calculos {
 
-	public Calculos() {
+	public Calculos(BufferedReader buffer) {
 
 		// ArrayList<String> datos = recuperarFichero();
-		obtenerDatosFichero();
+		obtenerDatosFichero(buffer);
 
 	}
 
 	
 	// public ArrayList<String> recuperarFichero() {
-	public void obtenerDatosFichero() {
+	public void obtenerDatosFichero(BufferedReader bufferRecibido) {
 		ArrayList<Seccion> listadoFamilias = new ArrayList<Seccion>();
 		Seccion seccionObj = new Seccion(null);
 		;
@@ -40,7 +40,7 @@ public class Calculos {
 
 		try {
 
-			BufferedReader buffer = ControlFicheros.getBufferFichero();
+			BufferedReader buffer = bufferRecibido;
 
 
 			// Recorremos el fichero
@@ -108,6 +108,60 @@ public class Calculos {
 		System.out.println("TOTAL DE FAMILIAS: " + listadoFamilias.size());
 		System.out.println("TOTAL DE REFERENCIAS: " + referenciasDiaria);
 		System.out.println("TOTAL DE CANTIDADES: " + cantidadDiaria);
+	}
+	
+	
+	public static ArrayList<String> getSecciones(BufferedReader bufferRecibido){
+		
+		ArrayList<String> listadoFamilias = new ArrayList<String>();
+		String linea = "";
+
+		try {
+
+			BufferedReader buffer = bufferRecibido;
+
+
+			// Recorremos el fichero
+			while ((linea = buffer.readLine()) != null) {
+
+				String familia = "";
+				// linea = buffer.readLine();
+
+				if (linea.contains("  creflash")) {
+
+					// Guardamos la seccion
+					buffer.readLine();
+					linea = buffer.readLine();
+					// System.out.println(linea);
+
+					familia += linea.charAt(45);
+					familia += linea.charAt(46);
+					familia += "-";
+					familia += linea.charAt(49);
+					familia += linea.charAt(50);
+					familia += "-";
+					familia += linea.charAt(53);
+					familia += linea.charAt(54);
+					familia += "-";
+					familia += linea.charAt(56);
+					familia += linea.charAt(57);
+
+
+					// System.out.println(seccionObj.getNombre());
+
+					listadoFamilias.add(familia);
+
+				} 
+
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return listadoFamilias;
+		
 	}
 
 
