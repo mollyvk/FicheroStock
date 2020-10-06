@@ -10,41 +10,38 @@ import java.util.regex.Pattern;
 
 import javax.swing.plaf.metal.MetalBorders.MenuItemBorder;
 
+/**
+ * 
+ * Esta clase sirve para hacer los cálculos necesarios para la interfaz gráfica. Debe recibir una ruta al fichero que se quiere tratar.
+ * 
+ * @author pablofernandezmartinez
+ *
+ * @version 0.00
+ *
+ */
 public class Calculos {
 
 	public Calculos() {
 
 		// ArrayList<String> datos = recuperarFichero();
-		recuperarFichero();
+		obtenerDatosFichero();
 
 	}
 
-	/**
-	 * 
-	 */
+	
 	// public ArrayList<String> recuperarFichero() {
-	public void recuperarFichero() {
+	public void obtenerDatosFichero() {
 		ArrayList<Seccion> listadoFamilias = new ArrayList<Seccion>();
-		Seccion seccionObj =  new Seccion(null);;
+		Seccion seccionObj = new Seccion(null);
+		;
 		String linea = "";
 		int referenciasDiaria = 0;
 		int cantidadDiaria = 0;
 
 		try {
 
-			// Ponemos la ruta del archivo.
-			FileReader entrada = new FileReader("/Users/pablofernandezmartinez/Desktop/287-Compact-Oleiros.txt");
+			BufferedReader buffer = ControlFicheros.getBufferFichero();
 
-			// Creamos en buffer
-			BufferedReader buffer = new BufferedReader(entrada);
-
-			// Recuperamos el número de líneas del fichero
-
-//			long lNumeroLineas = 0;
-//
-//			while ((sCadena = buffer.readLine())!=null) {
-//			  lNumeroLineas++;
-//			}
 
 			// Recorremos el fichero
 			while ((linea = buffer.readLine()) != null) {
@@ -74,22 +71,21 @@ public class Calculos {
 					// creamos el objeto seccion y guarmaos su nombre
 					seccionObj = new Seccion(familia);
 
-					//System.out.println(seccionObj.getNombre());
+					// System.out.println(seccionObj.getNombre());
 
 					listadoFamilias.add(seccionObj);
 
 				} else {
 					if (linea.length() >= 15) {
-						String substr = linea.substring(15, 23);
-						String cantidad = linea.substring(68,72);
-						cantidad = cantidad.replace(" ", "");
-						
-						
-						if (substr.matches("[0-9]{8}")) {
+						String codigoInterno = linea.substring(15, 23);
+						String cantidad = linea.substring(68, 72);
+						cantidad = cantidad.replace(" ", ""); // Podemos hacerlo con trim
+
+						if (codigoInterno.matches("[0-9]{8}")) {
 							Integer cantidadInt = Integer.parseInt(cantidad);
-							//System.out.println(substr + " - "+ cantidad);
-							seccionObj.anadirReferencia(substr, cantidadInt);
-							
+							// System.out.println(substr + " - "+ cantidad);
+							seccionObj.anadirReferencia(codigoInterno, cantidadInt);
+
 						}
 					}
 				}
@@ -100,8 +96,7 @@ public class Calculos {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
 		for (Seccion seccion : listadoFamilias) {
 			System.out.println(seccion.getNombre());
 			System.out.println("Las cantidades de esta sección son: " + seccion.getTotalCantidades());
@@ -110,10 +105,13 @@ public class Calculos {
 			referenciasDiaria += seccion.getTotalReferencias();
 		}
 
-		
 		System.out.println("TOTAL DE FAMILIAS: " + listadoFamilias.size());
 		System.out.println("TOTAL DE REFERENCIAS: " + referenciasDiaria);
 		System.out.println("TOTAL DE CANTIDADES: " + cantidadDiaria);
 	}
 
+
+
+	
+	
 }
