@@ -25,8 +25,10 @@ public class Calculos {
 	// public ArrayList<String> recuperarFichero() {
 	public void recuperarFichero() {
 		ArrayList<Seccion> listadoFamilias = new ArrayList<Seccion>();
-		Seccion seccionObj;
+		Seccion seccionObj =  new Seccion(null);;
 		String linea = "";
+		int referenciasDiaria = 0;
+		int cantidadDiaria = 0;
 
 		try {
 
@@ -72,19 +74,21 @@ public class Calculos {
 					// creamos el objeto seccion y guarmaos su nombre
 					seccionObj = new Seccion(familia);
 
-					System.out.println(seccionObj.getNombre());
+					//System.out.println(seccionObj.getNombre());
 
 					listadoFamilias.add(seccionObj);
 
 				} else {
 					if (linea.length() >= 15) {
-						String substr = linea.substring(16, 14);
-						String cantidad = linea.substring(68,75);
-						//cantidad = cantidad.replace(" ", "");
-						//Integer cantidadInt = Integer.parseInt(cantidad);
+						String substr = linea.substring(15, 23);
+						String cantidad = linea.substring(68,72);
+						cantidad = cantidad.replace(" ", "");
 						
-						if (substr.matches("[0-9]{13}")) {
-							System.out.println(substr + " - "+ cantidad);
+						
+						if (substr.matches("[0-9]{8}")) {
+							Integer cantidadInt = Integer.parseInt(cantidad);
+							//System.out.println(substr + " - "+ cantidad);
+							seccionObj.anadirReferencia(substr, cantidadInt);
 							
 						}
 					}
@@ -96,12 +100,20 @@ public class Calculos {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
+		
 		for (Seccion seccion : listadoFamilias) {
 			System.out.println(seccion.getNombre());
+			System.out.println("Las cantidades de esta sección son: " + seccion.getTotalCantidades());
+			System.out.println(seccion.getReferenciasCantidades());
+			cantidadDiaria += seccion.getTotalCantidades();
+			referenciasDiaria += seccion.getTotalReferencias();
 		}
 
-		System.out.println(listadoFamilias.size());
+		
+		System.out.println("TOTAL DE FAMILIAS: " + listadoFamilias.size());
+		System.out.println("TOTAL DE REFERENCIAS: " + referenciasDiaria);
+		System.out.println("TOTAL DE CANTIDADES: " + cantidadDiaria);
 	}
 
 }
