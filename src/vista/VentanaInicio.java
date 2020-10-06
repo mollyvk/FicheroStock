@@ -29,8 +29,8 @@ public class VentanaInicio extends JFrame {
 
 	private JPanel contentPane;
 	JLabel lblRuta;
-	private JTable table;
-	BufferedReader buffer;
+	String ruta = "";
+	private JTable table_1;
 
 	/**
 	 * Launch the application.
@@ -59,56 +59,63 @@ public class VentanaInicio extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
+
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.NORTH);
-		
+
 		JLabel lblNewLabel = new JLabel("Selecciona el fichero");
 		panel.add(lblNewLabel);
-		
+
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1, BorderLayout.SOUTH);
-		
+
 		JButton btnSeleccionarFichero = new JButton("Selecciona fichero");
-		btnSeleccionarFichero.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				JFileChooser fileChooser = new JFileChooser();
-				int seleccion = fileChooser.showOpenDialog(VentanaInicio.this);
-				
-				if (seleccion == JFileChooser.APPROVE_OPTION)
-				{
-					System.out.println(seleccion);
-					
-				   File fichero = fileChooser.getSelectedFile(); 
-				   
-				   String ruta = fichero.getAbsolutePath();
-				   
-				   lblRuta.setText(ruta);
-				   
-				   try {
-					buffer = ControlFicheros.getBufferFichero(ruta);
-					Calculos calculos = new Calculos(buffer);
-					
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(VentanaInicio.this, "Error al seleccionar el fichero");
-					e1.printStackTrace();
-				}
-				   
-					
-				}
-			}
-		});
+		btnSeleccionarFichero.addActionListener(new cargarFicheroTabla());
+
 		panel_1.add(btnSeleccionarFichero);
-		
+
 		lblRuta = new JLabel("Ruta");
 		contentPane.add(lblRuta, BorderLayout.WEST);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		
-		
+		table_1 = new JTable();
+		scrollPane.setViewportView(table_1);
+
 	}
 
+	private class cargarFicheroTabla implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			// Ventana para recibir el string con la ruta del fichero.
+			JFileChooser fileChooser = new JFileChooser();
+			int seleccion = fileChooser.showOpenDialog(VentanaInicio.this);
+
+			if (seleccion == JFileChooser.APPROVE_OPTION) {
+				System.out.println(seleccion);
+
+				File fichero = fileChooser.getSelectedFile();
+
+				ruta = fichero.getAbsolutePath();
+
+			}
+			
+			// Pedimos el modelo de la tabla dando a Calculos la ruta
+			DefaultTableModel model = Calculos.getModeloTabla(ruta);
+			table_1.setModel(model);
+			
+			
+			
+			
+			// Actualizamos la tabla con el modelo. setModel.
+			
+			
+			// No sé si hay que actualizar algo o poner algo visible.  
+
+		}
+
+	}
 }

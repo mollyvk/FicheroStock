@@ -8,11 +8,14 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.JTable;
 import javax.swing.plaf.metal.MetalBorders.MenuItemBorder;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * 
- * Esta clase sirve para hacer los cálculos necesarios para la interfaz gráfica. Debe recibir una ruta al fichero que se quiere tratar.
+ * Esta clase sirve para hacer los cálculos necesarios para la interfaz gráfica.
+ * Debe recibir una ruta al fichero que se quiere tratar.
  * 
  * @author pablofernandezmartinez
  *
@@ -28,7 +31,6 @@ public class Calculos {
 
 	}
 
-	
 	// public ArrayList<String> recuperarFichero() {
 	public void obtenerDatosFichero(BufferedReader bufferRecibido) {
 		ArrayList<Seccion> listadoFamilias = new ArrayList<Seccion>();
@@ -41,7 +43,6 @@ public class Calculos {
 		try {
 
 			BufferedReader buffer = bufferRecibido;
-
 
 			// Recorremos el fichero
 			while ((linea = buffer.readLine()) != null) {
@@ -109,17 +110,26 @@ public class Calculos {
 		System.out.println("TOTAL DE REFERENCIAS: " + referenciasDiaria);
 		System.out.println("TOTAL DE CANTIDADES: " + cantidadDiaria);
 	}
-	
-	
-	public static ArrayList<String> getSecciones(BufferedReader bufferRecibido){
-		
-		ArrayList<String> listadoFamilias = new ArrayList<String>();
+
+	public static DefaultTableModel getModeloTabla(String ruta) {
+
 		String linea = "";
+		ArrayList<String> listaSecciones = new ArrayList<String>();
+		String[] arraySecciones = null;
+		DefaultTableModel model = null;
 
 		try {
+			// Creamos el modelo de la tabla
 
-			BufferedReader buffer = bufferRecibido;
+			model = new DefaultTableModel();
 
+			model.addColumn("Secciones");
+
+			// Pedimos el buffer
+
+			BufferedReader buffer = ControlFicheros.getBufferFichero(ruta);
+
+			// Recorremos el fichero y guardamos las familias en un arrayList
 
 			// Recorremos el fichero
 			while ((linea = buffer.readLine()) != null) {
@@ -146,26 +156,24 @@ public class Calculos {
 					familia += linea.charAt(56);
 					familia += linea.charAt(57);
 
+					listaSecciones.add(familia);
 
-					// System.out.println(seccionObj.getNombre());
-
-					listadoFamilias.add(familia);
-
-				} 
-
+				}
+				
+				arraySecciones = new String[listaSecciones.size()];
+				
+				arraySecciones = listaSecciones.toArray(arraySecciones);
+				
+				model.addRow(arraySecciones);
 			}
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		return listadoFamilias;
 		
+		return model;
+
 	}
 
-
-
-	
-	
 }
