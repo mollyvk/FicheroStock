@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.plaf.metal.MetalBorders.MenuItemBorder;
 import javax.swing.table.DefaultTableModel;
@@ -115,23 +116,21 @@ public class Calculos {
 
 		String linea = "";
 		ArrayList<String> listaSecciones = new ArrayList<String>();
-		String[] arraySecciones = null;
+		Object[] arraySecciones = null;
 		DefaultTableModel model = null;
+		Seccion seccionObj = null;
+		ArrayList<Seccion> arrayListObj = new ArrayList<Seccion>();
+		int cantidadDiaria = 0;
+		int referenciasDiaria = 0;
 
 		try {
 			// Creamos el modelo de la tabla
-
 			model = new DefaultTableModel();
 
-			model.addColumn("Secciones");
-
 			// Pedimos el buffer
-
 			BufferedReader buffer = ControlFicheros.getBufferFichero(ruta);
 
 			// Recorremos el fichero y guardamos las familias en un arrayList
-
-			// Recorremos el fichero
 			while ((linea = buffer.readLine()) != null) {
 
 				String familia = "";
@@ -158,20 +157,63 @@ public class Calculos {
 
 					listaSecciones.add(familia);
 
+					seccionObj = new Seccion(familia);
+					//System.out.println(seccionObj.getNombre());
+					arrayListObj.add(seccionObj);
+
+				} else {
+					if (linea.length() >= 15) {
+						String codigoInterno = linea.substring(15, 23);
+						String cantidad = linea.substring(68, 72);
+						cantidad = cantidad.replace(" ", ""); // Podemos hacerlo con trim
+
+						if (codigoInterno.matches("[0-9]{8}")) {
+							Integer cantidadInt = Integer.parseInt(cantidad);
+
+							// System.out.println(codigoInterno + " - "+ cantidad);
+							seccionObj.anadirReferencia(codigoInterno, cantidadInt);
+
+							//System.out.println(seccionObj.getReferenciasCantidades());
+						}
+					}
 				}
-				
-				arraySecciones = new String[listaSecciones.size()];
-				
-				arraySecciones = listaSecciones.toArray(arraySecciones);
-				
-				model.addRow(arraySecciones);
+
 			}
+
+			arraySecciones = new String[listaSecciones.size()];
+
+			arraySecciones = listaSecciones.toArray(arraySecciones);
+
+			model.addColumn("Secciones", arraySecciones);
+
+			// SUMAR LAS REFERENCIAS Y CANTIDADES
+
+			Object[] arraySumaReferencias = new Object[arrayListObj.size()];
+			Object[] arraySumaCantidades = new Object[arrayListObj.size()];
+			ArrayList<Object> arrayDePaso = new ArrayList<Object>();
+			ArrayList<Object> arrayDePaso2 = new ArrayList<Object>();
+			
+			for (Seccion seccion : arrayListObj) {
+				
+				arrayDePaso.add(seccion.getTotalReferencias());
+				arrayDePaso2.add(seccion.getTotalCantidades());
+				referenciasDiaria += seccion.getTotalReferencias();
+				cantidadDiaria += seccion.getTotalCantidades();
+			}
+			arraySumaReferencias = arrayDePaso.toArray(arraySumaReferencias);
+			arraySumaCantidades = arrayDePaso2.toArray(arraySumaCantidades);
+		
+
+			model.addColumn("Referencias", (Object[]) arraySumaReferencias);
+			model.addColumn("Cantidades", (Object[]) arraySumaCantidades);
+			
+			JOptionPane.showMessageDialog(null, "Se han encontrado. \n\tFamilias: " + arrayListObj.size() + "\n\tReferencias: " + referenciasDiaria + "\n\tCantidades: " + cantidadDiaria);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return model;
 
 	}

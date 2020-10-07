@@ -28,7 +28,6 @@ import javax.swing.JTable;
 public class VentanaInicio extends JFrame {
 
 	private JPanel contentPane;
-	JLabel lblRuta;
 	String ruta = "";
 	private JTable table_1;
 
@@ -74,9 +73,6 @@ public class VentanaInicio extends JFrame {
 
 		panel_1.add(btnSeleccionarFichero);
 
-		lblRuta = new JLabel("Ruta");
-		contentPane.add(lblRuta, BorderLayout.WEST);
-
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		
@@ -110,10 +106,7 @@ public class VentanaInicio extends JFrame {
 			
 			
 			
-			// Actualizamos la tabla con el modelo. setModel.
 			
-			
-			// No sé si hay que actualizar algo o poner algo visible.  
 
 		}
 
