@@ -117,7 +117,8 @@ public class Calculos {
 		String linea = "";
 		ArrayList<String> listaSecciones = new ArrayList<String>();
 		Object[] arraySecciones = null;
-		DefaultTableModel model = null;
+		//DefaultTableModel model = null;
+		MiModelo model = null;
 		Seccion seccionObj = null;
 		ArrayList<Seccion> arrayListObj = new ArrayList<Seccion>();
 		int cantidadDiaria = 0;
@@ -125,8 +126,9 @@ public class Calculos {
 
 		try {
 			// Creamos el modelo de la tabla
-			model = new DefaultTableModel();
-
+			//model = new DefaultTableModel();
+			model = new MiModelo();
+			
 			// Pedimos el buffer
 			BufferedReader buffer = ControlFicheros.getBufferFichero(ruta);
 
@@ -184,7 +186,7 @@ public class Calculos {
 
 			arraySecciones = listaSecciones.toArray(arraySecciones);
 
-			model.addColumn("Secciones", arraySecciones);
+		
 
 			// SUMAR LAS REFERENCIAS Y CANTIDADES
 
@@ -192,20 +194,24 @@ public class Calculos {
 			Object[] arraySumaCantidades = new Object[arrayListObj.size()];
 			ArrayList<Object> arrayDePaso = new ArrayList<Object>();
 			ArrayList<Object> arrayDePaso2 = new ArrayList<Object>();
+			Boolean[] arraySeleccionado = new Boolean[arrayListObj.size()];
+			int contador = 0;
 			
 			for (Seccion seccion : arrayListObj) {
-				
+				arraySeleccionado[contador] = true;
 				arrayDePaso.add(seccion.getTotalReferencias());
 				arrayDePaso2.add(seccion.getTotalCantidades());
 				referenciasDiaria += seccion.getTotalReferencias();
 				cantidadDiaria += seccion.getTotalCantidades();
+				contador++;
 			}
 			arraySumaReferencias = arrayDePaso.toArray(arraySumaReferencias);
 			arraySumaCantidades = arrayDePaso2.toArray(arraySumaCantidades);
 		
-
-			model.addColumn("Referencias", (Object[]) arraySumaReferencias);
-			model.addColumn("Cantidades", (Object[]) arraySumaCantidades);
+			model.addColumn("Seleccionado", arraySeleccionado);
+			model.addColumn("Secciones", arraySecciones);
+			model.addColumn("Referencias", arraySumaReferencias);
+			model.addColumn("Cantidades", arraySumaCantidades);
 			
 			JOptionPane.showMessageDialog(null, "Se han encontrado. \n\tFamilias: " + arrayListObj.size() + "\n\tReferencias: " + referenciasDiaria + "\n\tCantidades: " + cantidadDiaria);
 
@@ -218,4 +224,20 @@ public class Calculos {
 
 	}
 
+}
+
+/**
+ * Clase para el modelo de la tabla principal.
+ * @author pablofernandezmartinez
+ *
+ */
+class MiModelo extends DefaultTableModel{
+	
+	/**
+	 * Método que cambia el tipo de datos de las tablas.
+	 */
+	public Class getColumnClass(int columna) {
+		if (columna==0) return Boolean.class;
+		return Object.class;
+	}
 }

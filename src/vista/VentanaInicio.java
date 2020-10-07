@@ -30,6 +30,8 @@ public class VentanaInicio extends JFrame {
 	private JPanel contentPane;
 	String ruta = "";
 	private JTable table_1;
+	JButton btnSeparar;
+	DefaultTableModel model;
 
 	/**
 	 * Launch the application.
@@ -72,6 +74,12 @@ public class VentanaInicio extends JFrame {
 		btnSeleccionarFichero.addActionListener(new cargarFicheroTabla());
 
 		panel_1.add(btnSeleccionarFichero);
+		
+		btnSeparar = new JButton("Crear ficheros");
+		btnSeparar.addActionListener(new separarFicheros());
+		panel_1.add(btnSeparar);
+		btnSeparar.setEnabled(false);
+		
 
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
@@ -100,8 +108,9 @@ public class VentanaInicio extends JFrame {
 			}
 			
 			// Pedimos el modelo de la tabla dando a Calculos la ruta
-			DefaultTableModel model = Calculos.getModeloTabla(ruta);
+			model = Calculos.getModeloTabla(ruta);
 			table_1.setModel(model);
+			btnSeparar.setEnabled(true);
 			
 			
 			
@@ -110,5 +119,20 @@ public class VentanaInicio extends JFrame {
 
 		}
 
+	}
+	
+	private class separarFicheros implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			for (int i = 0; i < table_1.getRowCount(); i++) {
+				System.out.println(table_1.getValueAt(i, 0) + " - " + table_1.getValueAt(i, 1));
+				
+			}
+			
+		}
+		
+		
 	}
 }
