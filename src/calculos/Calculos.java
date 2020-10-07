@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,7 +37,6 @@ public class Calculos {
 	public void obtenerDatosFichero(BufferedReader bufferRecibido) {
 		ArrayList<Seccion> listadoFamilias = new ArrayList<Seccion>();
 		Seccion seccionObj = new Seccion(null);
-		;
 		String linea = "";
 		int referenciasDiaria = 0;
 		int cantidadDiaria = 0;
@@ -117,7 +117,7 @@ public class Calculos {
 		String linea = "";
 		ArrayList<String> listaSecciones = new ArrayList<String>();
 		Object[] arraySecciones = null;
-		//DefaultTableModel model = null;
+		// DefaultTableModel model = null;
 		MiModelo model = null;
 		Seccion seccionObj = null;
 		ArrayList<Seccion> arrayListObj = new ArrayList<Seccion>();
@@ -126,9 +126,9 @@ public class Calculos {
 
 		try {
 			// Creamos el modelo de la tabla
-			//model = new DefaultTableModel();
+			// model = new DefaultTableModel();
 			model = new MiModelo();
-			
+
 			// Pedimos el buffer
 			BufferedReader buffer = ControlFicheros.getBufferFichero(ruta);
 
@@ -160,7 +160,7 @@ public class Calculos {
 					listaSecciones.add(familia);
 
 					seccionObj = new Seccion(familia);
-					//System.out.println(seccionObj.getNombre());
+					// System.out.println(seccionObj.getNombre());
 					arrayListObj.add(seccionObj);
 
 				} else {
@@ -175,7 +175,7 @@ public class Calculos {
 							// System.out.println(codigoInterno + " - "+ cantidad);
 							seccionObj.anadirReferencia(codigoInterno, cantidadInt);
 
-							//System.out.println(seccionObj.getReferenciasCantidades());
+							// System.out.println(seccionObj.getReferenciasCantidades());
 						}
 					}
 				}
@@ -186,8 +186,6 @@ public class Calculos {
 
 			arraySecciones = listaSecciones.toArray(arraySecciones);
 
-		
-
 			// SUMAR LAS REFERENCIAS Y CANTIDADES
 
 			Object[] arraySumaReferencias = new Object[arrayListObj.size()];
@@ -196,7 +194,7 @@ public class Calculos {
 			ArrayList<Object> arrayDePaso2 = new ArrayList<Object>();
 			Boolean[] arraySeleccionado = new Boolean[arrayListObj.size()];
 			int contador = 0;
-			
+
 			for (Seccion seccion : arrayListObj) {
 				arraySeleccionado[contador] = true;
 				arrayDePaso.add(seccion.getTotalReferencias());
@@ -207,13 +205,14 @@ public class Calculos {
 			}
 			arraySumaReferencias = arrayDePaso.toArray(arraySumaReferencias);
 			arraySumaCantidades = arrayDePaso2.toArray(arraySumaCantidades);
-		
+
 			model.addColumn("Seleccionado", arraySeleccionado);
 			model.addColumn("Secciones", arraySecciones);
 			model.addColumn("Referencias", arraySumaReferencias);
 			model.addColumn("Cantidades", arraySumaCantidades);
-			
-			JOptionPane.showMessageDialog(null, "Se han encontrado. \n\tFamilias: " + arrayListObj.size() + "\n\tReferencias: " + referenciasDiaria + "\n\tCantidades: " + cantidadDiaria);
+
+			JOptionPane.showMessageDialog(null, "Se han encontrado. \n\tFamilias: " + arrayListObj.size()
+					+ "\n\tReferencias: " + referenciasDiaria + "\n\tCantidades: " + cantidadDiaria);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -224,20 +223,54 @@ public class Calculos {
 
 	}
 
+	/**
+	 * Método para separar los ficheros
+	 * 
+	 * @param ruta                   dirección donde vamos a recoger el fichero.
+	 * @param seccionesSeleccionadas LinkedHashMap con la relación de familias y si
+	 *                               han sido seleccionadas.
+	 */
+	public static void separaFicheros(String ruta, LinkedHashMap<String, Boolean> seccionesSeleccionadas) {
+		try {
+
+			// Pedimos el buffer
+			BufferedReader buffer = ControlFicheros.getBufferFichero(ruta);
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Ha habido un error al separar el fichero", "¡Error!",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
 }
 
 /**
  * Clase para el modelo de la tabla principal.
+ * 
  * @author pablofernandezmartinez
  *
  */
-class MiModelo extends DefaultTableModel{
-	
+class MiModelo extends DefaultTableModel {
+
 	/**
 	 * Método que cambia el tipo de datos de las tablas.
 	 */
 	public Class getColumnClass(int columna) {
-		if (columna==0) return Boolean.class;
+		if (columna == 0)
+			return Boolean.class;
 		return Object.class;
 	}
 }

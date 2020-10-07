@@ -21,6 +21,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -32,6 +34,7 @@ public class VentanaInicio extends JFrame {
 	private JTable table_1;
 	JButton btnSeparar;
 	DefaultTableModel model;
+	LinkedHashMap<String, Boolean> seccionesSeleccionadas = new LinkedHashMap<String, Boolean>();
 
 	/**
 	 * Launch the application.
@@ -74,16 +77,15 @@ public class VentanaInicio extends JFrame {
 		btnSeleccionarFichero.addActionListener(new cargarFicheroTabla());
 
 		panel_1.add(btnSeleccionarFichero);
-		
+
 		btnSeparar = new JButton("Crear ficheros");
 		btnSeparar.addActionListener(new separarFicheros());
 		panel_1.add(btnSeparar);
 		btnSeparar.setEnabled(false);
-		
 
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
-		
+
 		table_1 = new JTable();
 		scrollPane.setViewportView(table_1);
 
@@ -106,33 +108,31 @@ public class VentanaInicio extends JFrame {
 				ruta = fichero.getAbsolutePath();
 
 			}
-			
+
 			// Pedimos el modelo de la tabla dando a Calculos la ruta
 			model = Calculos.getModeloTabla(ruta);
 			table_1.setModel(model);
 			btnSeparar.setEnabled(true);
-			
-			
-			
-			
-			
 
 		}
 
 	}
-	
+
 	private class separarFicheros implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+
 			for (int i = 0; i < table_1.getRowCount(); i++) {
-				System.out.println(table_1.getValueAt(i, 0) + " - " + table_1.getValueAt(i, 1));
-				
+				seccionesSeleccionadas.put((String) table_1.getValueAt(i, 1), (Boolean) table_1.getValueAt(i, 0));
+
 			}
-			
+
+			for (Map.Entry<String, Boolean> entrada : seccionesSeleccionadas.entrySet()) {
+				
+				System.out.println(entrada.getKey() + " - " + entrada.getValue());
+			}
 		}
-		
-		
+
 	}
 }
