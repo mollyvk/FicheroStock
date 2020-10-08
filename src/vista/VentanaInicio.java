@@ -128,10 +128,8 @@ public class VentanaInicio extends JFrame {
 
 			}
 
-			for (Map.Entry<String, Boolean> entrada : seccionesSeleccionadas.entrySet()) {
-				
-				System.out.println(entrada.getKey() + " - " + entrada.getValue());
-			}
+			Calculos.separaFicheros(ruta, seccionesSeleccionadas);
+
 		}
 
 	}
