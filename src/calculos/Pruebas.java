@@ -19,9 +19,6 @@ public class Pruebas {
 		String rutaDestino = "";
 		String lineaCopiar = "";
 		ArrayList<String> bloqueCopiar = new ArrayList<String>();
-		bloqueCopiar.add("");
-		bloqueCopiar.add("");
-		bloqueCopiar.add("");
 
 		try {
 			// Cargar el fichero y crear buffer
@@ -50,7 +47,7 @@ public class Pruebas {
 //				System.out.println(rutaDestino);
 //
 //			}
-			
+
 			rutaDestino = "/Users/pablofernandezmartinez/Desktop/SeccionesElegidas.txt";
 
 			// Crear fichero modificado
@@ -59,37 +56,37 @@ public class Pruebas {
 
 			BufferedWriter bufferEscritura = new BufferedWriter(archivoEscritura);
 
-			 bloqueCopiar.add(bufferLectura.readLine());
-
-			
+			// bloqueCopiar.add(bufferLectura.readLine());
 
 			while ((lineaCopiar = bufferLectura.readLine()) != null) {
 
 				if (lineaCopiar.contains("creflash")) {
 
 					bloqueCopiar.add(lineaCopiar);
-					
-					if (bloqueCopiar.get(2).contains("11  03  06 25")) {
+					// System.out.println(lineaCopiar);
 
-						for (String string : bloqueCopiar) {
-							
-							System.out.println(string);
-							//bufferEscritura.write(string);
-							//bufferEscritura.newLine();
+					if (bloqueCopiar.size() >= 2) {
+						if (bloqueCopiar.get(2).contains("11  03  06 25") || bloqueCopiar.get(1).contains("11  03  06 25")) {
+
+							for (String string : bloqueCopiar) {
+
+								System.out.println(string);
+
+								// bufferEscritura.write(string);
+								// bufferEscritura.newLine();
+							}
+
 						}
-
 						bloqueCopiar.clear();
-
 					}
-
 				} else {
 
 					bloqueCopiar.add(lineaCopiar);
-					System.out.println(lineaCopiar);
+					// System.out.println(lineaCopiar);
 				}
 
 			}
-			//bufferEscritura.flush();
+			// bufferEscritura.flush();
 
 			// Tratar datos
 
