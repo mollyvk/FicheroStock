@@ -238,7 +238,8 @@ public class Calculos {
 	public static void separaFicheros(String ruta, LinkedHashMap<String, Boolean> seccionesSeleccionadas) {
 		
 		
-		String rutaDestino = "";
+		String rutaDestinoSeleccionado = "";
+		String rutaDestinoNoseleccionado = "";
 		String lineaCopiar = "";
 		ArrayList<String> bloqueCopiar = new ArrayList<String>();
 
@@ -264,11 +265,13 @@ public class Calculos {
 
 				File fichero = fileChooser.getSelectedFile();
 
-				rutaDestino = fichero.getAbsolutePath();
+				rutaDestinoSeleccionado = fichero.getAbsolutePath();
 
-				rutaDestino += "/SeccionesElegidas.txt";
+				rutaDestinoSeleccionado += "/SeccionesElegidas.txt";
+				
+				rutaDestinoNoseleccionado = fichero.getAbsolutePath() + "/Secciones no selecciondas.txt";
 
-				System.out.println(rutaDestino);
+				System.out.println(rutaDestinoSeleccionado);
 
 			}
 
@@ -276,9 +279,16 @@ public class Calculos {
 
 			// Crear fichero modificado
 
-			FileWriter archivoEscritura = new FileWriter(rutaDestino);
+			FileWriter archivoEscritura = new FileWriter(rutaDestinoSeleccionado);
 
 			BufferedWriter bufferEscritura = new BufferedWriter(archivoEscritura);
+			
+			// Crear fichero de no seleccionados
+			
+			FileWriter archivoEscrituraNoselect = new FileWriter(rutaDestinoNoseleccionado);
+
+			BufferedWriter bufferEscrituraNoSelect = new BufferedWriter(archivoEscrituraNoselect);
+			
 
 			// bloqueCopiar.add(bufferLectura.readLine());
 
@@ -286,7 +296,7 @@ public class Calculos {
 
 				if (lineaCopiar.contains("creflash")) {
 
-					// bloqueCopiar.add(lineaCopiar);
+					bloqueCopiar.add(lineaCopiar);
 					// System.out.println(lineaCopiar);
 
 					if (bloqueCopiar.size() >= 2) {
@@ -308,6 +318,9 @@ public class Calculos {
 									}
 
 								}
+							} else {
+								bufferEscrituraNoSelect.write(entradaMap.getKey());
+								bufferEscrituraNoSelect.newLine();
 							}
 						}
 						bloqueCopiar.clear();
@@ -350,12 +363,22 @@ public class Calculos {
 			}
 
 			bufferEscritura.flush();
+			
+			bufferEscrituraNoSelect.flush();
+			
+			
+			
+			
+			
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Ha habido un error al separar el fichero", "¡Error!",
 					JOptionPane.ERROR_MESSAGE);
 		}
+		
+		JOptionPane.showMessageDialog(null, "Se ha completado la creación de los nuevos archivos", "¡Hecho!", JOptionPane.INFORMATION_MESSAGE);
 	}
+
 
 }
 
