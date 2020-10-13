@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.swing.JFileChooser;
 
@@ -20,6 +22,11 @@ public class Pruebas {
 		String lineaCopiar = "";
 		ArrayList<String> bloqueCopiar = new ArrayList<String>();
 
+		LinkedHashMap<String, Boolean> seccionesSeleccionadas = new LinkedHashMap<String, Boolean>();
+		seccionesSeleccionadas.put("11  03  06 30", false);
+		seccionesSeleccionadas.put("11  03  06 25", true);
+		seccionesSeleccionadas.put("11  03  06 20", true);
+
 		try {
 			// Cargar el fichero y crear buffer
 
@@ -28,27 +35,27 @@ public class Pruebas {
 
 			// Pedir ruta del fichero resultado
 
-//			JFileChooser fileChooser = new JFileChooser();
-//			fileChooser.setCurrentDirectory(new java.io.File("."));
-//			fileChooser.setDialogTitle("Elige la carpeta de destino");
-//			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-//			fileChooser.setAcceptAllFileFilterUsed(false);
-//
-//			int seleccion = fileChooser.showOpenDialog(null);
-//
-//			if (seleccion == JFileChooser.APPROVE_OPTION) {
-//
-//				File fichero = fileChooser.getSelectedFile();
-//
-//				rutaDestino = fichero.getAbsolutePath();
-//
-//				rutaDestino += "/SeccionesElegidas.txt";
-//
-//				System.out.println(rutaDestino);
-//
-//			}
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setCurrentDirectory(new java.io.File("."));
+			fileChooser.setDialogTitle("Elige la carpeta de destino");
+			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			fileChooser.setAcceptAllFileFilterUsed(false);
 
-			rutaDestino = "/Users/pablofernandezmartinez/Desktop/SeccionesElegidas.txt";
+			int seleccion = fileChooser.showOpenDialog(null);
+
+			if (seleccion == JFileChooser.APPROVE_OPTION) {
+
+				File fichero = fileChooser.getSelectedFile();
+
+				rutaDestino = fichero.getAbsolutePath();
+
+				rutaDestino += "/SeccionesElegidas.txt";
+
+				System.out.println(rutaDestino);
+
+			}
+
+			// rutaDestino = "/Users/pablofernandezmartinez/Desktop/SeccionesElegidas.txt";
 
 			// Crear fichero modificado
 
@@ -62,22 +69,32 @@ public class Pruebas {
 
 				if (lineaCopiar.contains("creflash")) {
 
-					bloqueCopiar.add(lineaCopiar);
+					// bloqueCopiar.add(lineaCopiar);
 					// System.out.println(lineaCopiar);
 
 					if (bloqueCopiar.size() >= 2) {
-						if (bloqueCopiar.get(2).contains("11  03  06 25") || bloqueCopiar.get(1).contains("11  03  06 25")) {
 
-							for (String string : bloqueCopiar) {
+						// Recorrer el map y pasar por parámetros la seccion al
 
-								System.out.println(string);
+						for (Map.Entry<String, Boolean> entradaMap : seccionesSeleccionadas.entrySet()) {
 
-								// bufferEscritura.write(string);
-								// bufferEscritura.newLine();
+							if (entradaMap.getValue() == true) {
+								if (bloqueCopiar.get(2).contains(entradaMap.getKey())
+										|| bloqueCopiar.get(1).contains(entradaMap.getKey())) {
+
+									for (String string : bloqueCopiar) {
+
+										System.out.println(string);
+
+										bufferEscritura.write(string);
+										bufferEscritura.newLine();
+									}
+
+								}
 							}
-
 						}
 						bloqueCopiar.clear();
+						bloqueCopiar.add(lineaCopiar);
 					}
 				} else {
 
@@ -86,9 +103,38 @@ public class Pruebas {
 				}
 
 			}
-			// bufferEscritura.flush();
 
-			// Tratar datos
+			if (lineaCopiar == null) {
+
+				if (bloqueCopiar.size() >= 2) {
+
+					// Recorrer el map y pasar por parámetros la seccion al
+
+					for (Map.Entry<String, Boolean> entradaMap : seccionesSeleccionadas.entrySet()) {
+
+						if (entradaMap.getValue() == true) {
+							if (bloqueCopiar.get(2).contains(entradaMap.getKey())
+									|| bloqueCopiar.get(1).contains(entradaMap.getKey())) {
+
+								for (String string : bloqueCopiar) {
+
+									System.out.println(string);
+
+									bufferEscritura.write(string);
+									bufferEscritura.newLine();
+								}
+
+							}
+						}
+					}
+					bloqueCopiar.clear();
+				}
+
+			}
+
+			bufferEscritura.flush();
+
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();

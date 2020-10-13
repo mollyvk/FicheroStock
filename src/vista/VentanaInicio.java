@@ -127,6 +127,10 @@ public class VentanaInicio extends JFrame {
 				seccionesSeleccionadas.put((String) table_1.getValueAt(i, 1), (Boolean) table_1.getValueAt(i, 0));
 
 			}
+			
+			
+			
+			
 
 			Calculos.separaFicheros(ruta, seccionesSeleccionadas);
 
