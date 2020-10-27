@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import calculos.Calculos;
+import calculos.SepararStockDiario;
 import calculos.ControlFicheros;
 
 import javax.swing.JLabel;
@@ -27,7 +27,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-public class VentanaInicio extends JFrame {
+public class VentanaSepararStockDiario extends JFrame {
 
 	private JPanel contentPane;
 	String ruta = "";
@@ -43,7 +43,8 @@ public class VentanaInicio extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentanaInicio frame = new VentanaInicio();
+					VentanaSepararStockDiario frame = new VentanaSepararStockDiario();
+					frame.setAlwaysOnTop(true); //Esto nos permite que el jFrame sea un modal
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -55,8 +56,8 @@ public class VentanaInicio extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaInicio() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public VentanaSepararStockDiario() {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 462, 314);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
@@ -98,7 +99,7 @@ public class VentanaInicio extends JFrame {
 
 			// Ventana para recibir el string con la ruta del fichero.
 			JFileChooser fileChooser = new JFileChooser();
-			int seleccion = fileChooser.showOpenDialog(VentanaInicio.this);
+			int seleccion = fileChooser.showOpenDialog(VentanaSepararStockDiario.this);
 
 			if (seleccion == JFileChooser.APPROVE_OPTION) {
 				System.out.println(seleccion);
@@ -110,7 +111,7 @@ public class VentanaInicio extends JFrame {
 			}
 
 			// Pedimos el modelo de la tabla dando a Calculos la ruta
-			model = Calculos.getModeloTabla(ruta);
+			model = SepararStockDiario.getModeloTabla(ruta);
 			table_1.setModel(model);
 			btnSeparar.setEnabled(true);
 
@@ -132,7 +133,7 @@ public class VentanaInicio extends JFrame {
 			
 			
 
-			Calculos.separaFicheros(ruta, seccionesSeleccionadas);
+			SepararStockDiario.separaFicheros(ruta, seccionesSeleccionadas);
 
 		}
 

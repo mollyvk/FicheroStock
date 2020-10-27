@@ -19,6 +19,8 @@ import javax.swing.JTable;
 import javax.swing.plaf.metal.MetalBorders.MenuItemBorder;
 import javax.swing.table.DefaultTableModel;
 
+import calculos.pojo.Seccion;
+
 /**
  * 
  * Esta clase sirve para hacer los cálculos necesarios para la interfaz gráfica.
@@ -29,9 +31,9 @@ import javax.swing.table.DefaultTableModel;
  * @version 0.00
  *
  */
-public class Calculos {
+public class SepararStockDiario {
 
-	public Calculos(BufferedReader buffer) {
+	public SepararStockDiario(BufferedReader buffer) {
 
 		// ArrayList<String> datos = recuperarFichero();
 		obtenerDatosFichero(buffer);

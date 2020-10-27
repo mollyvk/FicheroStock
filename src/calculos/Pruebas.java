@@ -12,7 +12,7 @@ import java.util.Map;
 
 import javax.swing.JFileChooser;
 
-import vista.VentanaInicio;
+import vista.VentanaSepararStockDiario;
 
 public class Pruebas {
 

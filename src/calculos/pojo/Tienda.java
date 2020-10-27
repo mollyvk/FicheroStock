@@ -1,4 +1,4 @@
-package calculos;
+package calculos.pojo;
 
 import java.util.ArrayList;
 

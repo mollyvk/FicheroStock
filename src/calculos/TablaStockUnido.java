@@ -14,6 +14,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import calculos.pojo.Linea;
+import calculos.pojo.Tienda;
 import controlBase.UtilBase;
 
 /**
