@@ -1,36 +1,40 @@
 package calculos;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.io.*;
+import java.sql.*;
+import java.util.*;
 
 import javax.swing.JFileChooser;
 
+import controlBase.UtilBase;
 import vista.VentanaSepararStockDiario;
 
 public class Pruebas {
 
 	public static void main(String[] args) {
 
-	ArrayList<String> lista = new ArrayList<String>();
-	
-	lista.add("a");
-	lista.add("b");
-	lista.add("c");
-	lista.add("d");
-	lista.add("e");
-	
-	
-	String buscado = "c";
-	
-	System.out.println(lista.indexOf(buscado));
-	
+		try {
+			Connection conexion = DriverManager.getConnection(
+					"jdbc:mysql://127.0.0.1:8084/stc_lm",
+					"root", "root");
+
+			Statement statement = conexion.createStatement();
+
+			String sql = "Select * FROM prueba";
+
+			ResultSet resultset = statement.executeQuery(sql);
+
+			while (resultset.next()) {
+
+				System.out.println(resultset.getString(0) + " - " + resultset.getString(1));
+
+			}
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
 	}
 
 }

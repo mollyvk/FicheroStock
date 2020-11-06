@@ -1,15 +1,8 @@
 package calculos;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.SQLException;
-
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
+import java.io.*;
+import java.sql.*;
+import javax.swing.*;
 
 import controlBase.UtilBase;
 
