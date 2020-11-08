@@ -46,11 +46,14 @@ public class UtilBase {
 			///// Hasta aquí
 
 			session.connect();
-			session.setPortForwardingL(8085, "localhost", 3306);
+			session.setPortForwardingL(8086, "localhost", 3306);
 
-			conexion = DriverManager.getConnection("jdbc:mysql://localhost:8085/stc_lm", "pablo",
+			conexion = DriverManager.getConnection("jdbc:mysql://localhost:8086/stc_lm", "pablo",
 					"jucvE7-kiqzor-mavjob");
 
+			// Recuerda crear un método para cerrar las conexiones. 
+			
+			
 //		Connection conexion = null;
 //
 //		conexion = DriverManager.getConnection(
@@ -85,6 +88,8 @@ public class UtilBase {
 
 		ResultSet resulset = statement.executeQuery(sql);
 
+		cerrarPuertos();
+		
 		while (resulset.next()) {
 
 			listaTiendas.put(resulset.getString(1), resulset.getString(2));
@@ -122,6 +127,15 @@ public class UtilBase {
 		}
 
 		return arrayNumeros;
+	}
+	
+	public static void cerrarPuertos() {
+		//try {
+			 // session.delPortForwardingL(8086);
+			//  session.disconnect();
+		//	} catch (JSchException e) {
+		//	  e.printStackTrace();
+		//	}
 	}
 
 }

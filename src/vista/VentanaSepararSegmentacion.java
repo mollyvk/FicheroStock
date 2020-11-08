@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileSystemView;
 import javax.swing.JLabel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -23,11 +24,24 @@ import controlBase.UtilBase;
 import com.toedter.calendar.JCalendar;
 import javax.swing.JSeparator;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class VentanaSepararSegmentacion extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField txt_ruta;
+	private JTextField txt_fecha_inicio;
+	JTextField txt_fecha_fin = new JTextField();
+	
 
 	/**
 	 * Launch the application.
@@ -91,43 +105,130 @@ public class VentanaSepararSegmentacion extends JFrame {
 		panel_opciones.add(panel, gbc_panel);
 		panel.setLayout(new BorderLayout(0, 0));
 		
-		textField = new JTextField();
-		panel.add(textField, BorderLayout.CENTER);
-		textField.setColumns(10);
+		txt_ruta = new JTextField();
+		panel.add(txt_ruta, BorderLayout.CENTER);
+		txt_ruta.setColumns(10);
 		
 		JButton btnNewButton = new JButton("seleccionar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				JFileChooser chooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+				chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				int opcion = chooser.showOpenDialog(VentanaSepararSegmentacion.this);
+				
+				if(opcion == JFileChooser.APPROVE_OPTION) {
+					
+					File fichero = chooser.getSelectedFile();
+					
+					txt_ruta.setText(fichero.getAbsolutePath());
+					
+				}
+				
+				
+			}
+		});
 		panel.add(btnNewButton, BorderLayout.EAST);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(null);
+		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+		gbc_panel_1.fill = GridBagConstraints.BOTH;
+		gbc_panel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_panel_1.gridx = 0;
+		gbc_panel_1.gridy = 1;
+		panel_opciones.add(panel_1, gbc_panel_1);
+		GridBagLayout gbl_panel_1 = new GridBagLayout();
+		gbl_panel_1.columnWidths = new int[]{142, 0};
+		gbl_panel_1.rowHeights = new int[]{57, 0, 0};
+		gbl_panel_1.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_panel_1.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		panel_1.setLayout(gbl_panel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Fecha de inicio");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 0);
 		gbc_lblNewLabel_2.gridx = 0;
-		gbc_lblNewLabel_2.gridy = 1;
-		panel_opciones.add(lblNewLabel_2, gbc_lblNewLabel_2);
+		gbc_lblNewLabel_2.gridy = 0;
+		panel_1.add(lblNewLabel_2, gbc_lblNewLabel_2);
 		
-		JCalendar calendar = new JCalendar();
-		GridBagConstraints gbc_calendar = new GridBagConstraints();
-		gbc_calendar.insets = new Insets(0, 0, 5, 0);
-		gbc_calendar.fill = GridBagConstraints.BOTH;
-		gbc_calendar.gridx = 1;
-		gbc_calendar.gridy = 1;
-		panel_opciones.add(calendar, gbc_calendar);
+		txt_fecha_inicio = new JTextField();
+		GridBagConstraints gbc_txt_fecha_inicio = new GridBagConstraints();
+		gbc_txt_fecha_inicio.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txt_fecha_inicio.gridx = 0;
+		gbc_txt_fecha_inicio.gridy = 1;
+		panel_1.add(txt_fecha_inicio, gbc_txt_fecha_inicio);
+		txt_fecha_inicio.setColumns(10);
+		
+		JCalendar calendario_inicio = new JCalendar();
+		calendario_inicio.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent arg0) {
+				Date fecha_inicio = calendario_inicio.getDate();
+				
+				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			
+				String strDate = dateFormat.format(fecha_inicio);
+				
+				txt_fecha_inicio.setText(strDate);
+				
+			}
+		});
+		GridBagConstraints gbc_calendario_inicio = new GridBagConstraints();
+		gbc_calendario_inicio.insets = new Insets(0, 0, 5, 0);
+		gbc_calendario_inicio.fill = GridBagConstraints.BOTH;
+		gbc_calendario_inicio.gridx = 1;
+		gbc_calendario_inicio.gridy = 1;
+		panel_opciones.add(calendario_inicio, gbc_calendario_inicio);
+		
+		JPanel panel_2 = new JPanel();
+		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
+		gbc_panel_2.fill = GridBagConstraints.BOTH;
+		gbc_panel_2.insets = new Insets(0, 0, 5, 5);
+		gbc_panel_2.gridx = 0;
+		gbc_panel_2.gridy = 2;
+		panel_opciones.add(panel_2, gbc_panel_2);
+		GridBagLayout gbl_panel_2 = new GridBagLayout();
+		gbl_panel_2.columnWidths = new int[]{142, 0};
+		gbl_panel_2.rowHeights = new int[]{53, 0, 0};
+		gbl_panel_2.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gbl_panel_2.rowWeights = new double[]{1.0, 0.0, Double.MIN_VALUE};
+		panel_2.setLayout(gbl_panel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("Fecha de fin");
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
-		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 0);
 		gbc_lblNewLabel_3.gridx = 0;
-		gbc_lblNewLabel_3.gridy = 2;
-		panel_opciones.add(lblNewLabel_3, gbc_lblNewLabel_3);
+		gbc_lblNewLabel_3.gridy = 0;
+		panel_2.add(lblNewLabel_3, gbc_lblNewLabel_3);
 		
-		JCalendar calendar_1 = new JCalendar();
-		GridBagConstraints gbc_calendar_1 = new GridBagConstraints();
-		gbc_calendar_1.insets = new Insets(0, 0, 5, 0);
-		gbc_calendar_1.fill = GridBagConstraints.BOTH;
-		gbc_calendar_1.gridx = 1;
-		gbc_calendar_1.gridy = 2;
-		panel_opciones.add(calendar_1, gbc_calendar_1);
 		
+		GridBagConstraints gbc_txt_fecha_fin = new GridBagConstraints();
+		gbc_txt_fecha_fin.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txt_fecha_fin.gridx = 0;
+		gbc_txt_fecha_fin.gridy = 1;
+		panel_2.add(txt_fecha_fin, gbc_txt_fecha_fin);
+		txt_fecha_fin.setColumns(10);
+
+		JCalendar calendario_fin = new JCalendar();
+		calendario_fin.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent arg0) {
+
+				Date fecha_fin = calendario_fin.getDate();
+
+				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+				String strDate = dateFormat.format(fecha_fin);
+				
+				txt_fecha_fin.setText(strDate);
+			}
+		});
+		GridBagConstraints gbc_calendario_fin = new GridBagConstraints();
+		gbc_calendario_fin.insets = new Insets(0, 0, 5, 0);
+		gbc_calendario_fin.fill = GridBagConstraints.BOTH;
+		gbc_calendario_fin.gridx = 1;
+		gbc_calendario_fin.gridy = 2;
+		panel_opciones.add(calendario_fin, gbc_calendario_fin);
+
 		JLabel lblNewLabel_4 = new JLabel("Tienda");
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
 		gbc_lblNewLabel_4.anchor = GridBagConstraints.EAST;
@@ -135,27 +236,23 @@ public class VentanaSepararSegmentacion extends JFrame {
 		gbc_lblNewLabel_4.gridx = 0;
 		gbc_lblNewLabel_4.gridy = 3;
 		panel_opciones.add(lblNewLabel_4, gbc_lblNewLabel_4);
-		
-		
-		
+
 		JComboBox comboBox = new JComboBox();
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 1;
 		gbc_comboBox.gridy = 3;
 		comboBox.setModel(new DefaultComboBoxModel(UtilBase.getNumerosTiendas()));
-		
-		
-		
+
 		panel_opciones.add(comboBox, gbc_comboBox);
-		
+
 		JPanel panel_titulo = new JPanel();
 		contentPane.add(panel_titulo, BorderLayout.NORTH);
 		panel_titulo.setLayout(new BorderLayout(0, 0));
-		
+
 		JLabel lblNewLabel = new JLabel("Crear archivos de segmentación por tienda y fechas", JLabel.CENTER);
 		panel_titulo.add(lblNewLabel, BorderLayout.CENTER);
-		
+
 		JSeparator separator = new JSeparator();
 		panel_titulo.add(separator, BorderLayout.SOUTH);
 	}

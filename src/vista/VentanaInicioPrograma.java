@@ -17,6 +17,11 @@ import javax.swing.JButton;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.BevelBorder;
 
 public class VentanaInicioPrograma extends JFrame {
 
@@ -59,6 +64,7 @@ public class VentanaInicioPrograma extends JFrame {
 		contentPane.add(lblNewLabel_1, BorderLayout.SOUTH);
 		
 		JPanel panel = new JPanel();
+		panel.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(new GridLayout(4, 1));
 		

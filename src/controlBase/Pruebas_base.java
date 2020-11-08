@@ -33,13 +33,13 @@ public class Pruebas_base {
 			session.setConfig(config);
 
 			///// Hasta aquí
-			
+
 			session.connect();
-			session.setPortForwardingL(8085, "localhost", 3306);
+			session.setPortForwardingL(8086, "localhost", 3306);
 
 			Connection conexion = null;
 
-			conexion = DriverManager.getConnection("jdbc:mysql://localhost:8085/stc_lm", "pablo",
+			conexion = DriverManager.getConnection("jdbc:mysql://localhost:8086/stc_lm", "pablo",
 					"jucvE7-kiqzor-mavjob");
 
 			Statement st = conexion.createStatement();
@@ -48,6 +48,14 @@ public class Pruebas_base {
 
 			ResultSet rs = st.executeQuery(sql);
 
+			try {
+				session.delPortForwardingL(8086);
+				session.disconnect();
+			} catch (JSchException e) {
+				e.printStackTrace();
+			}
+
+			
 			while (rs.next()) {
 
 				System.out.println(rs.getString(1) + " - " + rs.getString(2));
@@ -58,7 +66,14 @@ public class Pruebas_base {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
+		
+		//try {
+			//session.delPortForwardingL(8086);
+			session.disconnect();
+//		} catch (JSchException e) {
+//			e.printStackTrace();
+//		}
 
 	}
 
