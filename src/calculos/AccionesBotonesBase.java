@@ -17,7 +17,7 @@ public class AccionesBotonesBase implements ActionListener {
 		case "Borrar base":
 			try {
 				// Conectar base
-				Connection conexion = UtilBase.getConnection();
+				Connection conexion = UtilBase.createConnection();
 
 				// Crear el statement
 				Statement statement = conexion.createStatement();

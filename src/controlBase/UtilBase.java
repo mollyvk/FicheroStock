@@ -22,74 +22,91 @@ public class UtilBase {
 	private static Session session = null;
 	private static Connection connection = null;
 
-	public static Connection getConnection() throws SQLException {
+	public static Connection getConnexion() {
+		return connection;
+	}
+
+	// public static void createConnection() throws SQLException {
+	public UtilBase() {
 		JSch j = new JSch();
-		Session session = null;
-		Connection conexion = null;
+		if (connection == null) {
+			try {
+				j.addIdentity(
+						"/Users/pablofernandezmartinez/Dropbox/_Formación/_GS DAM/Otras cosas/LightsailDefaultKey-eu-west-3.pem");
 
-		try {
-			j.addIdentity(
-					"/Users/pablofernandezmartinez/Dropbox/_Formación/_GS DAM/Otras cosas/LightsailDefaultKey-eu-west-3.pem");
+				j.setKnownHosts("/home/reporting/.ssh/known_hosts");
 
-			j.setKnownHosts("/home/reporting/.ssh/known_hosts");
+				session = j.getSession("bitnami", "15.188.23.247", 22);
 
-			session = j.getSession("bitnami", "15.188.23.247", 22);
+				// Ojo, este código parece que puede crear alguna inseguiridad. Seguir la pista
+				// de
+				// https://stackoverflow.com/questions/2003419/com-jcraft-jsch-jschexception-unknownhostkey
 
-			// Ojo, este código parece que puede crear alguna inseguiridad. Seguir la pista
-			// de
-			// https://stackoverflow.com/questions/2003419/com-jcraft-jsch-jschexception-unknownhostkey
+				java.util.Properties config = new java.util.Properties();
+				config.put("StrictHostKeyChecking", "no");
+				session.setConfig(config);
 
-			java.util.Properties config = new java.util.Properties();
-			config.put("StrictHostKeyChecking", "no");
-			session.setConfig(config);
+				///// Hasta aquí
 
-			///// Hasta aquí
+				session.connect();
+				session.setPortForwardingL(8086, "localhost", 3306);
 
-			session.connect();
-			session.setPortForwardingL(8086, "localhost", 3306);
+				connection = DriverManager.getConnection("jdbc:mysql://localhost:8086/stc_lm", "pablo",
+						"jucvE7-kiqzor-mavjob");
 
-			conexion = DriverManager.getConnection("jdbc:mysql://localhost:8086/stc_lm", "pablo",
-					"jucvE7-kiqzor-mavjob");
-
-			// Recuerda crear un método para cerrar las conexiones. 
-			
-			
-//		Connection conexion = null;
-//
 //		conexion = DriverManager.getConnection(
 //				"jdbc:mysql://localhost:8889/stc_lm?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
 //				"root", "root");
-		} catch (JSchException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			} catch (JSchException e) {
 
-		return conexion;
+				e.printStackTrace();
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("Ya se ha creao el objeto conexión");
+		}
 
 	}
 
-	public static Statement getStatement() throws SQLException {
+	public Statement getStatement() throws SQLException {
 
-		Statement statement = getConnection().createStatement();
+		Statement statement = connection.createStatement(); // cojo el statement de la conexión que se ha tenido que
+															// crear antes. ¿Ganamos algo con este método?
 
 		return statement;
 
 	}
 
-	public static TreeMap<String, String> getTiendas() throws SQLException {
+	/**
+	 * 
+	 * Este método te devuelve un Map con clave del número de tienda y el nombre de
+	 * la tienda. ¿Sería mejor un arrayList de objetos Tienda con toda la
+	 * información? los objetos tienda se utilizaron al principio y y habría que
+	 * crearles un nuevo constructor... Sería el mismo objeto tienda??
+	 * 
+	 * ojo! tira de getStatement() que a su vez tira de getConnection(). Si no
+	 * tenemos conexión nos va a dar error.
+	 * 
+	 * @return Map numeroTienda - nombreTienda
+	 * @throws SQLException
+	 */
+	public TreeMap<String, String> getTiendas() throws SQLException {
 
 		TreeMap<String, String> listaTiendas = null;
 
 		listaTiendas = new TreeMap<>();
 
-		Statement statement = UtilBase.getStatement();
+		Statement statement = getStatement();
 
 		String sql = "SELECT `nTienda`, `tienda` FROM tiendasConNumero";
 
 		ResultSet resulset = statement.executeQuery(sql);
 
 		cerrarPuertos();
-		
+
 		while (resulset.next()) {
 
 			listaTiendas.put(resulset.getString(1), resulset.getString(2));
@@ -104,11 +121,15 @@ public class UtilBase {
 		return listaTiendas;
 	}
 
-	public static String[] getNumerosTiendas() {
+	public String[] getNumerosTiendas() {
 
 		TreeMap<String, String> listaTiendas = null;
 		try {
-			listaTiendas = getTiendas();
+			
+			UtilBase utilBase = new UtilBase();
+			
+			listaTiendas = utilBase.getTiendas();
+			
 		} catch (SQLException e) {
 
 			JOptionPane.showMessageDialog(null, "Error al cargar el listado de tiendas");
@@ -128,14 +149,14 @@ public class UtilBase {
 
 		return arrayNumeros;
 	}
-	
+
 	public static void cerrarPuertos() {
-		//try {
-			 // session.delPortForwardingL(8086);
-			//  session.disconnect();
-		//	} catch (JSchException e) {
-		//	  e.printStackTrace();
-		//	}
+		// try {
+		// session.delPortForwardingL(8086);
+		// session.disconnect();
+//		 } catch (JSchException e) {
+//		 e.printStackTrace();
+//		 }
 	}
 
 }
