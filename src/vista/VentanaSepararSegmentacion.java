@@ -100,7 +100,7 @@ public class VentanaSepararSegmentacion extends JFrame {
 
 				int tiendas = comboBox.getSelectedIndex();
 
-				calculos.SepararSegmentación.separarSegmentacion(ruta, string_fecha_inicio, string_fecha_fin, "");
+				calculos.SepararSegmentacion.separarSegmentacion(ruta, string_fecha_inicio, string_fecha_fin, "");
 			}
 		});
 		panel_botones.add(btn_aceptar);

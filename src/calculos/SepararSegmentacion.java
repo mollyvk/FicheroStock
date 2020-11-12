@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
 
 import controlBase.UtilBase;
 
-public class SepararSegmentación {
+public class SepararSegmentacion {
 
 	
 	private static UtilBase utilBase;

@@ -26,7 +26,7 @@ public class UtilBase {
 		return connection;
 	}
 
-	// public static void createConnection() throws SQLException {
+
 	public UtilBase() {
 		JSch j = new JSch();
 		if (connection == null) {
