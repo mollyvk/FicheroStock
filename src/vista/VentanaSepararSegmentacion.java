@@ -30,6 +30,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TreeMap;
 import java.awt.event.ActionEvent;
@@ -66,9 +67,9 @@ public class VentanaSepararSegmentacion extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaSepararSegmentacion() {
-		
-		UtilBase utilBase = new UtilBase();
-		
+
+		// UtilBase utilBase = new UtilBase();
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 450);
 		contentPane = new JPanel();
@@ -88,15 +89,18 @@ public class VentanaSepararSegmentacion extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 
 				String ruta = txt_ruta.getText();
-				
-				Date fecha_inicio = calendario_inicio.getDate();
 
-				Date fecha_fin = calendario_fin.getDate();
-				
+				Calendar fecha_inicio = calendario_inicio.getCalendar();
+				String string_fecha_inicio = fecha_inicio.get(Calendar.YEAR) + "-"
+						+ (fecha_inicio.get(Calendar.MONTH) + 1) + "-" + fecha_inicio.get(Calendar.DAY_OF_MONTH);
+
+				Calendar fecha_fin = calendario_fin.getCalendar();
+				String string_fecha_fin = fecha_fin.get(Calendar.YEAR) + "-" + (fecha_fin.get(Calendar.MONTH) + 1) + "-"
+						+ fecha_fin.get(Calendar.DAY_OF_MONTH);
+
 				int tiendas = comboBox.getSelectedIndex();
 
-				calculos.SepararSegmentación.separarSegmentacion(ruta, fecha_inicio,
-				fecha_fin, tiendas, utilBase);
+				calculos.SepararSegmentación.separarSegmentacion(ruta, string_fecha_inicio, string_fecha_fin, "");
 			}
 		});
 		panel_botones.add(btn_aceptar);
@@ -261,11 +265,10 @@ public class VentanaSepararSegmentacion extends JFrame {
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 1;
 		gbc_comboBox.gridy = 3;
-		
-		
-		comboBox.setModel(new DefaultComboBoxModel(utilBase.getNumerosTiendas()));
 
-		//UtilBase.cerrarPuertos();
+		// comboBox.setModel(new DefaultComboBoxModel(utilBase.getNumerosTiendas()));
+
+		comboBox.setEnabled(false);
 		panel_opciones.add(comboBox, gbc_comboBox);
 
 		JPanel panel_titulo = new JPanel();

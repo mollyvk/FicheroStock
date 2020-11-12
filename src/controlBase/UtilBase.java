@@ -150,13 +150,13 @@ public class UtilBase {
 		return arrayNumeros;
 	}
 
-	public static void cerrarPuertos() {
-		// try {
-		// session.delPortForwardingL(8086);
-		// session.disconnect();
-//		 } catch (JSchException e) {
-//		 e.printStackTrace();
-//		 }
+	public void cerrarPuertos() {
+		 try {
+		 session.delPortForwardingL(8086);
+		 session.disconnect();
+		 } catch (JSchException e) {
+		 e.printStackTrace();
+		 }
 	}
 
 }
