@@ -66,7 +66,7 @@ public class VentanaInicioPrograma extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
 		contentPane.add(panel, BorderLayout.CENTER);
-		panel.setLayout(new GridLayout(4, 1));
+		panel.setLayout(new GridLayout(5, 1));
 		
 		JButton btn_cortar_stock = new JButton("Eliminar secciones del fichero de stock diario");
 		btn_cortar_stock.setToolTipText("Eliminar secciones del fichero de stock diario");
@@ -76,6 +76,10 @@ public class VentanaInicioPrograma extends JFrame {
 		JButton btn_calcular_prevision_stock = new JButton("Calcular el stock previsto");
 		btn_calcular_prevision_stock.setToolTipText("Calcular el stock previsto");
 		btn_calcular_prevision_stock.addActionListener(new AccionesBotonesMenuInicio());
+		
+		JButton btn_segmentacion_dias = new JButton("Generar segmentación por tienda y días");
+		btn_segmentacion_dias.addActionListener(new AccionesBotonesMenuInicio());
+		panel.add(btn_segmentacion_dias);
 		panel.add(btn_calcular_prevision_stock);
 		
 		JButton btn_calcular_replanificar = new JButton("Calcular secciones por replanificar");

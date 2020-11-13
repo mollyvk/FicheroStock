@@ -72,6 +72,7 @@ public class VentanaSepararSegmentacion extends JFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 450);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -82,6 +83,11 @@ public class VentanaSepararSegmentacion extends JFrame {
 		panel_botones.setLayout(new GridLayout(1, 2));
 
 		JButton btn_cancelar = new JButton("Cancelar");
+		btn_cancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
 		panel_botones.add(btn_cancelar);
 
 		JButton btn_aceptar = new JButton("Conseguir ficheros");

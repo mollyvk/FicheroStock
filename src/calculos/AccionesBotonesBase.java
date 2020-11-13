@@ -8,7 +8,9 @@ import javax.swing.JOptionPane;
 import controlBase.UtilBase;
 
 public class AccionesBotonesBase implements ActionListener {
-
+	
+	UtilBase utilBase = new UtilBase();
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String botonSeleccionado = e.getActionCommand();
@@ -16,11 +18,11 @@ public class AccionesBotonesBase implements ActionListener {
 		switch (botonSeleccionado) {
 		case "Borrar base":
 			try {
-				// Conectar base
-				Connection conexion = UtilBase.createConnection();
-
+				
+				utilBase = new UtilBase();
+				
 				// Crear el statement
-				Statement statement = conexion.createStatement();
+				Statement statement = utilBase.getConnexion().createStatement();
 
 				// Ejecutar la consulta
 				statement.executeUpdate("DELETE FROM `prueba`");
@@ -38,7 +40,7 @@ public class AccionesBotonesBase implements ActionListener {
 			try {
 
 				// Obtener statement
-				Statement statement = UtilBase.getStatement();
+				Statement statement = utilBase.getConnexion().createStatement();
 
 				statement.execute(
 						"LOAD DATA LOCAL INFILE '/Users/pablofernandezmartinez/Desktop/Segmentación/fichero1.csv' INTO TABLE `prueba` FIELDS TERMINATED BY ';' ENCLOSED BY '\\\"' ESCAPED BY '\\\\' LINES TERMINATED BY '\\n'\n");

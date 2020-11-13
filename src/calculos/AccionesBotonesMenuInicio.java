@@ -3,6 +3,7 @@ package calculos;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import vista.VentanaSepararSegmentacion;
 import vista.VentanaSepararStockDiario;
 
 /**
@@ -34,7 +35,13 @@ public class AccionesBotonesMenuInicio implements ActionListener {
 		case "Calcular secciones por replanificar":
 			System.out.println(arg0.getActionCommand());
 			break;
-
+			
+		case "Generar segmentación por tienda y días":
+			VentanaSepararSegmentacion frameSegmentacion = new VentanaSepararSegmentacion();
+			frameSegmentacion.setVisible(true);
+			System.out.println(arg0.getActionCommand() + " HOLA");
+			break;
+			
 		case "Salir":
 			System.out.println(arg0.getActionCommand());
 			System.exit(0);

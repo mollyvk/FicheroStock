@@ -28,7 +28,9 @@ public class TablaResultadosUnidos {
 		String referencia = "";
 		String cantidad = "";
 		String lineaLeida = "";
-		Connection conexion = UtilBase.createConnection();
+		
+		UtilBase utilBase = new UtilBase();
+		Connection conexion = utilBase.getConnexion();
 		CallableStatement statement = conexion.prepareCall("{call insert_resultados_unidos(?,?,?)}");
 
 		JOptionPane.showMessageDialog(null, "Hola");

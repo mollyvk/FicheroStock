@@ -165,8 +165,8 @@ public class TablaStockUnido {
 		}
 
 		// Conecto a la base
-		Connection conexion = UtilBase.createConnection();
-		CallableStatement statement = conexion.prepareCall("{call update_stock_unido(?,?,?,?,?,?,?)}");
+		UtilBase utilBase = new UtilBase();
+		CallableStatement statement = utilBase.getConnexion().prepareCall("{call update_stock_unido(?,?,?,?,?,?,?)}");
 
 		// Recorro el ArrayList guardando en la base
 		for (Tienda tienda_bucle : listaTiendas) {
