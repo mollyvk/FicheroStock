@@ -6,35 +6,20 @@ import java.util.*;
 
 import javax.swing.JFileChooser;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
+
 import controlBase.UtilBase;
 import vista.VentanaSepararStockDiario;
 
 public class Pruebas {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 
-		try {
-			Connection conexion = DriverManager.getConnection(
-					"jdbc:mysql://127.0.0.1:8084/stc_lm",
-					"root", "root");
-
-			Statement statement = conexion.createStatement();
-
-			String sql = "Select * FROM prueba";
-
-			ResultSet resultset = statement.executeQuery(sql);
-
-			while (resultset.next()) {
-
-				System.out.println(resultset.getString(0) + " - " + resultset.getString(1));
-
-			}
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-
+		System.out.println(System.getProperty("java.runtime.version"));
 	}
-
 }

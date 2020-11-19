@@ -238,19 +238,17 @@ public class SepararStockDiario {
 	 *                               han sido seleccionadas.
 	 */
 	public static void separaFicheros(String ruta, LinkedHashMap<String, Boolean> seccionesSeleccionadas) {
-		
-		
+
 		String rutaDestinoSeleccionado = "";
 		String rutaDestinoNoseleccionado = "";
 		String lineaCopiar = "";
 		ArrayList<String> bloqueCopiar = new ArrayList<String>();
 
-		
-
 		try {
 			// Cargar el fichero y crear buffer
 
-			//FileReader entrada = new FileReader("/Users/pablofernandezmartinez/Desktop/257-Compact-Colmenar.txt");
+			// FileReader entrada = new
+			// FileReader("/Users/pablofernandezmartinez/Desktop/257-Compact-Colmenar.txt");
 			BufferedReader bufferLectura = ControlFicheros.getBufferFichero(ruta);
 
 			// Pedir ruta del fichero resultado
@@ -270,7 +268,7 @@ public class SepararStockDiario {
 				rutaDestinoSeleccionado = fichero.getAbsolutePath();
 
 				rutaDestinoSeleccionado += "/SeccionesElegidas.txt";
-				
+
 				rutaDestinoNoseleccionado = fichero.getAbsolutePath() + "/Secciones no selecciondas.txt";
 
 				System.out.println(rutaDestinoSeleccionado);
@@ -284,13 +282,12 @@ public class SepararStockDiario {
 			FileWriter archivoEscritura = new FileWriter(rutaDestinoSeleccionado);
 
 			BufferedWriter bufferEscritura = new BufferedWriter(archivoEscritura);
-			
+
 			// Crear fichero de no seleccionados
-			
+
 			FileWriter archivoEscrituraNoselect = new FileWriter(rutaDestinoNoseleccionado);
 
 			BufferedWriter bufferEscrituraNoSelect = new BufferedWriter(archivoEscrituraNoselect);
-			
 
 			// bloqueCopiar.add(bufferLectura.readLine());
 
@@ -298,10 +295,10 @@ public class SepararStockDiario {
 
 				if (lineaCopiar.contains("creflash")) {
 
-					bloqueCopiar.add(lineaCopiar);
-					// System.out.println(lineaCopiar);
-
-					if (bloqueCopiar.size() >= 2) {
+					if (bloqueCopiar.size() <= 1) {
+						bloqueCopiar.add(lineaCopiar);
+						// System.out.println(lineaCopiar);
+					} else {
 
 						// Recorrer el map y pasar por parámetros la seccion al
 
@@ -365,22 +362,17 @@ public class SepararStockDiario {
 			}
 
 			bufferEscritura.flush();
-			
+
 			bufferEscrituraNoSelect.flush();
-			
-			
-			
-			
-			
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Ha habido un error al separar el fichero", "¡Error!",
 					JOptionPane.ERROR_MESSAGE);
 		}
-		
-		JOptionPane.showMessageDialog(null, "Se ha completado la creación de los nuevos archivos", "¡Hecho!", JOptionPane.INFORMATION_MESSAGE);
-	}
 
+		JOptionPane.showMessageDialog(null, "Se ha completado la creación de los nuevos archivos", "¡Hecho!",
+				JOptionPane.INFORMATION_MESSAGE);
+	}
 
 }
 
