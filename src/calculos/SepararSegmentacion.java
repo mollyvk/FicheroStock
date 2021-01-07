@@ -64,14 +64,14 @@ public class SepararSegmentacion {
 			int nLineas = 0;
 
 			double tiempo_inicio_escritura = System.currentTimeMillis();
-
+			
 			while (rs.next()) {
 
-				String linea = rs.getString(10) + ";" + rs.getString(5) + rs.getString(1) + ";" + rs.getString(2) + ";"
+				String linea = rs.getString(10) + ";" + rs.getString(5) + ";" + rs.getString(1) + ";" + rs.getString(2) + ";"
 						+ rs.getString(3) + ";" + rs.getString(4) + ";" + ";" + rs.getString(6) + ";" + rs.getString(7)
 						+ ";" + rs.getString(8) + ";" + rs.getString(9).replaceAll("\\r", "") + "\n";
 
-				FileWriter escritura = new FileWriter(ruta + rs.getString(5) + ".csv", true);
+				FileWriter escritura = new FileWriter(ruta + "/A"+ rs.getString(5) +  ".csv", true);
 
 				escritura.write(linea);
 
